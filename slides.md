@@ -229,7 +229,7 @@ class: text-center
 
 ---
 layout: full
-class: overflow-y-scorll
+class: overflow-y-scroll
 ---
 
 ```py
@@ -523,7 +523,7 @@ class: text-center
 <v-click>我們把我們所做的所有優化移除，只剩下使用完整的資料集、並提高訓練步數</v-click>
 
 ---
-layout: default
+layout: two-cols-header
 ---
 
 <div>
