@@ -21,7 +21,7 @@ layout: default
 - 使用 Trainer 直接訓練 `google-bert/bert-base-uncased`
 - 使用部分資料 (`train[:100]`、`eval[100:110]`)
 - 只設定基本訓練參數：batch size、epoch、learning rate
-- 僅採用 Accuracy 作為評估指標
+- 僅採用 accuracy 作為評估指標
 - 儲存 checkpoint 但無早停策略（early stopping）
 
 ---
