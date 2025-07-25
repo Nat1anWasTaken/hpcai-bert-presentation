@@ -83,6 +83,10 @@ def main(args):
 ```
 </div>
 
+<!--
+asdf
+-->
+
 ---
 layout: two-cols-header
 ---
@@ -375,3 +379,9 @@ length of dataset is 3432
 The generation accuracy is 80.15734265734265 %.
 Total inference time is 18.775450706481934 sec.
 ```
+
+---
+layout: cover
+---
+
+# 簡報結束
