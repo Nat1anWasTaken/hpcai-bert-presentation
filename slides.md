@@ -4,7 +4,6 @@ title: Fine-tuning BERT for tweets
 class: text-start
 drawings:
   persist: false
-transition: slide-left
 mdc: true
 layout: cover
 ---
