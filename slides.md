@@ -12,7 +12,7 @@ layout: cover
 Achieving High Accuracy in Tweet Sentiment Classification
 
 ---
-layout: default
+layout: code-right
 ---
 
 # 原始的 Training Pipeline
@@ -22,6 +22,66 @@ layout: default
 - 只設定基本訓練參數：batch size、epoch、learning rate
 - 僅採用 accuracy 作為評估指標
 - 儲存 checkpoint 但無早停策略（early stopping）
+
+::code::
+
+<div class="overflow-y-scroll">
+```py {all|2-10|12-17|19-25|27-33|38-53}{lines:true,maxHeight:'full'}
+def main(args):
+    # load model
+    device = "cuda:0" if torch.cuda.is_available() else "cpu"
+    tokenizer = AutoTokenizer.from_pretrained(args.model, trust_remote_code=True)
+    model = AutoModelForSequenceClassification.from_pretrained(
+        args.model, trust_remote_code=True, num_labels=3,
+        id2label=id2label, label2id=label2id, low_cpu_mem_usage=True,
+        device_map=device
+    )
+    model.to(device)
+
+    # load dataset
+    train_dataset = load_dataset("mteb/tweet_sentiment_extraction", split="train")
+    print(f"length of dataset is {len(train_dataset)}")
+
+    small_train_dataset = train_dataset.select([i for i in range(100)])
+    small_eval_dataset = train_dataset.select([i for i in range(100, 110)])
+
+    # define metrics function
+    metric = evaluate.load("accuracy")
+
+    def compute_metrics(eval_pred):
+        logits, label = eval_pred
+        pred = np.argmax(logits, axis=-1)
+        return metric.compute(predictions=pred, references=label)
+
+    # preprocess
+    def preprocess_data(dataframe):
+        return tokenizer(dataframe["text"], max_length=160, padding="max_length", truncation=True)
+
+    small_train_dataset = small_train_dataset.map(preprocess_data)
+    small_eval_dataset = small_eval_dataset.map(preprocess_data)
+
+    print("========================")
+
+    # train
+    train_args = TrainingArguments(
+        output_dir=args.output,
+        overwrite_output_dir=True,
+        save_strategy="epoch",
+        eval_strategy="epoch",
+        per_device_train_batch_size=8,
+        per_device_eval_batch_size=8,
+        learning_rate=5e-5,
+        adam_beta1=0.9,
+        adam_beta2=0.999,
+        adam_epsilon=1e-8,
+        num_train_epochs=1,
+        logging_dir="./train_logs",
+        load_best_model_at_end=True,
+        metric_for_best_model="accuracy",
+        fp16=True
+    )
+```
+</div>
 
 ---
 layout: two-cols-header
