@@ -16,7 +16,7 @@ Achieving High Accuracy in Tweet Sentiment Classification
 layout: default
 ---
 
-# The original training pipeline
+# 原始的 Training Pipeline
 
 - 使用 Trainer 直接訓練 `google-bert/bert-base-uncased`
 - 使用部分資料 (`train[:100]`、`eval[100:110]`)
@@ -28,7 +28,7 @@ layout: default
 layout: two-cols-header
 ---
 
-# Our training pipeline
+# 我們的 Training Pipeline
 
 ::left::
 - **資料集**
@@ -552,3 +552,9 @@ length of dataset is 3432
 The generation accuracy is 80.15734265734265 %.
 Total inference time is 18.775450706481934 sec.
 ```
+
+---
+layout: default
+---
+
+# 結果
